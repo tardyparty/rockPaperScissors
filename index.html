@@ -7,20 +7,26 @@
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://kit.fontawesome.com/558b8b4a50.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <title>Rock Paper Scissors</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
-        <div class="">Rock Paper Scissors</div>
+        <div class="game">Rock Paper Scissors</div>
     </nav>
     <div class="container col-lg-8 col-sm-12">
-        <div class="jumbotron">gameplay</div>
-        <div class="jumbotron">chat</div>
+        <div class="jumbotron text-center">
+            <div id="gameBox" class="col-lg-8 col-sm-12"></div>
+            <i id="rock" class="far fa-hand-rock fa-7x"></i>
+            <i id="paper" class="far fa-hand-paper fa-7x"></i>
+            <i id="scissors" class="far fa-hand-scissors fa-7x"></i>
+        </div>
+        <div class="jumbotron">
+            <div class="chatBox col-lg-8 col-sm-12"></div>
+        </div>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/558b8b4a50.js"></script>
     <script src="assets/javascript/app.js"></script>
 </body>
-
 </html>
