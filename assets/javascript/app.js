@@ -14,9 +14,9 @@ firebase.initializeApp(firebaseConfig);
 
 
 // global variables 
-const rockImg = '<i id="rock" class="far fa-hand-rock fa-3x" value="rock"></i>';
-const paperImg = '<i id="paper" class="far fa-hand-paper fa-3x" value="paper"></i>';
-const scissorImg = '<i id="scissors" class="far fa-hand-scissors fa-3x" value="scissors"></i>';
+const rockImg = '<i id="rock" class="choice far fa-hand-rock fa-3x" value="rock"></i>';
+const paperImg = '<i id="paper" class="choice far fa-hand-paper fa-3x" value="paper"></i>';
+const scissorImg = '<i id="scissors" class="choice far fa-hand-scissors fa-3x" value="scissors"></i>';
 
 const dataref = firebase.database().ref();
 
@@ -50,7 +50,8 @@ $(document).ready(function(){
     }
 
     else {
-        username()
+        username();
+        gamePlay();
     }
 });
 
@@ -93,7 +94,12 @@ function firstUser() {
         player1
     });
     
+    user1stats();
 
+}
+
+
+function user1stats(){
     // push player1 data to html
     $("#gameBox").html(`
     <h3 id="gameHead">Waiting on another Player...</h3>
@@ -109,7 +115,6 @@ function firstUser() {
     </div>
     <div id="choices"></div>
     `);
-
 }
 
 
@@ -122,6 +127,12 @@ function secondUser(){
 
     $("#gameHead").html(`${player2.name} is online!`);
 
+    user2stats();
+    
+}
+
+
+function user2stats(){
     $("#gameBox").append(`
     <div id="player2Div">
         <h2 id="player2name">${player2.name}</h2>
@@ -134,9 +145,41 @@ function secondUser(){
         ${scissorImg}
     </div>
     `);
-    
 }
 
+
+function gamePlay() {
+    if (player1.online && player2.online){
+        gamePlay()
+    }
+    else{}
+}
+
+
+function game(){
+    $("#").on("click", ".choice", function(){
+        // ======= how do i know which user clicks which button?
+        player1.choice = this.val();
+
+        if (player1.choice === "rock" && player2.choice === "scissors" ||
+            player1.choice === "paper" && player2.choice === "rock" ||
+            player1.choice === "scissors" && player2.choice === "paper"){
+                player1.wins ++;
+                player2.losses--;
+                // ======== push all data from results to firebase and rewrite the data from database to html
+            }
+        else {
+            player1.losses--;
+            player2.wins++;
+            // ========= push all data from results to firebase and rewrite the data from database to html
+        }
+
+        // reset player choices for next game
+        player1.choice = "";
+        player2.choice = "";
+
+    })
+}
 
 // - once two players are online -
     // - each player can now click on rock paper or scissor
