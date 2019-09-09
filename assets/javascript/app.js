@@ -14,9 +14,9 @@ firebase.initializeApp(firebaseConfig);
 
 
 // global variables 
-const rockImg = '<i id="rock" class="far fa-hand-rock fa-5x"></i>';
-const paperImg = '<i id="paper" class="far fa-hand-paper fa-5x"></i>';
-const scissorImg = '<i id="scissors" class="far fa-hand-scissors fa-5x"></i>';
+const rockImg = '<i id="rock" class="far fa-hand-rock fa-3x" value="rock"></i>';
+const paperImg = '<i id="paper" class="far fa-hand-paper fa-3x" value="paper"></i>';
+const scissorImg = '<i id="scissors" class="far fa-hand-scissors fa-3x" value="scissors"></i>';
 
 const dataref = firebase.database().ref();
 
@@ -26,6 +26,7 @@ let player1 = {
     name: "",
     wins: 0,
     losses: 0,
+    choice: "",
     online: false,
 }
 
@@ -33,8 +34,25 @@ let player2 = {
     name: '',
     wins: 0,
     losses: 0,
+    choice: "",
     online: false,
 }
+
+
+// called when page loads
+$(document).ready(function(){
+
+    // wont allow more than 2 players at a time
+    if (player1.online && player2.online){
+        $("#gameBox").html(
+            '<p>Sorry, please try again later. 2 people are currently playing.</p>'
+        );
+    }
+
+    else {
+        username()
+    }
+});
 
 
 // display form to select username at start of session
@@ -47,10 +65,6 @@ function username(){
         </form>
     `);
 }
-
-
-// called when page loads
-$(document).ready(username());
 
 
 // after name is submitted - name added to correct variable and database
@@ -75,11 +89,8 @@ function firstUser() {
     // push player1 data to firebase
     player1.name = $("#name-input").val().trim();
     player1.online = true;
-    dataref.push({
-        name: player1.name,
-        wins: player1.wins,
-        losses: player1.losses,
-        online: player1.online,
+    dataref.set({
+        player1
     });
     
 
@@ -91,6 +102,12 @@ function firstUser() {
         <h2 id="player1wins">Wins: ${player1.wins}</h2>
         <h2 id="player1losses">Losses: ${player1.losses}</h2>
     </div>
+    <div id="player1choice">
+        ${rockImg}
+        ${paperImg}
+        ${scissorImg}
+    </div>
+    <div id="choices"></div>
     `);
 
 }
@@ -99,11 +116,8 @@ function firstUser() {
 function secondUser(){
     player2.name = $("#name-input").val().trim();
     player2.online = true;
-    dataref.push({
-        name: player2.name,
-        wins: player2.wins,
-        losses: player2.losses,
-        online: player2.online,
+    dataref.set({
+        player2
     });
 
     $("#gameHead").html(`${player2.name} is online!`);
@@ -114,16 +128,14 @@ function secondUser(){
         <h2 id="player2wins">${player2.wins}</h2>
         <h2 id="player2losses">${player2.losses}</h2>
     </div>
+    <div id="player2choice">
+        ${rockImg}
+        ${paperImg}
+        ${scissorImg}
+    </div>
     `);
     
 }
-
-
-// - once someone lands on the page - 
-    // choose a username
-    // notified in the chat box that they are now online and ready to play
-    // will see notification when someone else is online
-    // when 2 are online, ability to create username halts
 
 
 // - once two players are online -
@@ -133,6 +145,10 @@ function secondUser(){
         // - after game() returns winner/loser - 
             // - gameReset() is automatically called to prepare for the next game
             // - display "choose r/p/s only while users choice is unselected"
+
+
+
+
 
 // - Win/Losses
     // - anytime the game ends, wins losses for each player will be updated
