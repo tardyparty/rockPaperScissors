@@ -80,22 +80,20 @@ function firstUser() {
         wins: player1.wins,
         losses: player1.losses,
         online: player1.online,
-        date: firebase.database.ServerValue.TIMESTAMP
     });
-}
     
 
-dataref.orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
     // push player1 data to html
     $("#gameBox").html(`
     <h3 id="gameHead">Waiting on another Player...</h3>
     <div id="player1Div">
-        <h2 id="player1name">${snapshot.val().name}</h2>
-        <h2 id="player1wins">Wins: ${snapshot.val().wins}</h2>
-        <h2 id="player1losses">Losses: ${snapshot.val().losses}</h2>
+        <h2 id="player1name">${player1.name}</h2>
+        <h2 id="player1wins">Wins: ${player1.wins}</h2>
+        <h2 id="player1losses">Losses: ${player1.losses}</h2>
     </div>
     `);
-});
+
+}
 
 
 function secondUser(){
@@ -106,7 +104,6 @@ function secondUser(){
         wins: player2.wins,
         losses: player2.losses,
         online: player2.online,
-        date: firebase.database.ServerValue.TIMESTAMP
     });
 
     $("#gameHead").html(`${player2.name} is online!`);
